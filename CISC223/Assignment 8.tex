@@ -1,0 +1,94 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{logicproof}
+
+\newcommand{\numberset}[1]{\mathbb{#1}} 
+\newcommand{\R}{\numberset{R}}
+
+\title{Assignment 8}
+\date{2019-03-21}
+\author{MONTGOMERY, BENNET 20074049 CISC 223\\
+		\and GOEL, CHRISTOPHER 20053408 CISC 223\\
+		\and VIOLO, JARED 20051382 CISC 223\\
+		\and DALLAS, SPENCER 20048480 CISC223
+		}
+
+\begin{document}
+	\maketitle
+	
+	\section*{Q1.}
+	The correctness statement after the insertion of intermediate assertions is:
+	{\fontfamily{qcr}\selectfont
+	\begin{lstlisting}
+ASSERT(y == 0 || z > -1)
+ASSERT(z-y >= z-y-(z-y+y) || z-y+y == z-y+(z-y-(z-y+y))) //Fact (i)
+x = z-y;
+ASSERT(x >= x-(x+y) || x+y == x+(x-(x+y)) //H.A. with previous ASSERT
+z = x+y;
+ASSERT(x >= x-z || z == x+(x-z) //H.A. with previous ASSERT
+y = x-z
+ASSERT(x >= y || z == x+y) //H.A. with previous ASSERT
+	\end{lstlisting}
+	}
+	Fact (i): {\fontfamily{qcr}\selectfont(y == 0 || z > -1) implies (z-y >= z-y-(z-y+y) || z-y+y == z-y+(z-y-(z-y+y)))}\\
+	Proof:
+	\begin{logicproof}{2}
+		(y = 0 \lor z > -1) & premise\\
+		\begin{subproof}
+			y = 0 & assumption\\
+			z = z & reflexive property\\
+			z - 0 + 0 = z - 0 + (z - 0 - ( z- 0 + 0)) & 0 is sub/add identity\\
+			z - y + y = z - y + (z - y - ( z - y + y)) & line 2\\
+			z - y \geq z - y - (z - y + y) \lor z - y + y= z - y + (z - y - ( z- y + y)) & $\lor_i$ line 5
+		\end{subproof}
+		\begin{subproof}
+			z > -1 & assumption\\
+			z \geq 0 & $x > -1 \rightarrow x \geq 0$\\
+			z \geq z - z & $x - x = 0, \forall x \in \R$\\
+			z - y \geq z - y - z & line 9 sub y\\
+			z - y \geq z - y - (z - y + y) & line 10, $- y + y = 0, \forall y \in \R$\\
+			z - y \geq z - y - (z - y + y) \lor z - y + y = z - y + (z - y - (z - y + y)) & $\lor_i$ line 11
+		\end{subproof}
+		z - y \geq z - y = (z -y + y) \lor z - y + y = z - y + (z - y - (z - y + y)) & $\lor_e$ lines 1, 2-6, 7-12
+	\end{logicproof}
+	\section*{Q2.}
+	\subsection*{(a)}
+	The weakest precondition that guarantees termination is {\fontfamily{qcr}\selectfont P = x > 0}. Because {\fontfamily{qcr}\selectfont i} is set to {\fontfamily{qcr}\selectfont x - 1}, the loop terminates when {\fontfamily{qcr}\selectfont i == 0}, and {\fontfamily{qcr}\selectfont i} is decremented by 1 every loop iteration, any value below 0 for {\fontfamily{qcr}\selectfont x} will cause the termination condition to never be met.
+	\subsection*{(b)}
+	The appropriate loop invariant is {\fontfamily{qcr}\selectfont INVAR(0 <= i <= x \&\& z == i * y)}
+	
+	\section*{Q3.}
+	The appropriate loop invariant for the inner while loop is {\fontfamily{qcr}\selectfont INVAR(1 <= i <= k + 1 \&\& sum == (i)*(i))}. The proof tableau for this is as follows:
+	{\fontfamily{qcr}\selectfont
+	\begin{lstlisting}
+ASSERT(k >= 0)
+{
+ASSERT(0 <= 1 <= k + 1 && 1 = 1 * 1) //k at least 0, 0 + 1 >= 1
+				     //1^2 = 1 
+i = 1;
+ASSERT(0 <= i <= k + 1 && 1 = i * i) //H.A. with prev ASSERT
+sum = 1;
+ASSERT(1 <= i <= k + 1 && sum == i * i) //H.A. with prev ASSERT
+while(i <= k) { INVAR(1 <= i <= k + 1 && sum == i*i)
+	ASSERT(INVAR && i <= k) //otherwise loop would've terminated
+	//loop sets sum = sum+2*i+1 && INVAR implies sum = i*i
+	ASSERT(1 <= i <= k+1 && sum+2*i+1 == i*i)
+	sum = sum + 2*i + 1;
+	ASSERT(1 <= i <= k+1 && sum = i*i) //H.A. with prev ASSERT
+	i = i + 1;
+	ASSERT(INVAR) //end of loop
+}
+ASSERT(INVAR && i >= k+1) //otherwise loop wouldn't terminate
+}
+//i <= k + 1 && i >= k + 1 implies i == k + 1
+ASSERT(sum == (k+1)*(k+1))
+	\end{lstlisting}
+	}
+	Because the invariant holds before the loop begins and i always eventually exceeds k meeting the loop termination condition, the program must eventually terminate.
+\end{document}

@@ -1,0 +1,42 @@
+\documentclass{article}
+	\usepackage{amsmath}
+	\usepackage{amssymb}
+
+	\title{Assignment 1}
+	\date{2019-01-17}
+	\author{MONTGOMERY, BENNET 20074049 CISC223\\
+			\and VIOLO, JARED 20051382 CISC223\\
+			\and GOEL, CHRISTOPHER 20053408 CISC223\\
+			\and DALLAS, SPENCER 20048480 CISC223}
+	
+\begin{document}
+	\maketitle
+	\thispagestyle{headings}
+	\pagenumbering{arabic}
+	
+	\section*{Q1.}
+	\subsection*{(a)}
+	There are 9 strings in the set $A \cdot B$: abba, abbb, aba, aaba, aabb, aaa, bba, bbb, ba.
+	\subsection*{(b)}
+	There are 9 strings in the set $B \cdot A$: baab, baaa, bab, bbab, bbaa, bbb, aab, aaa, ab.
+	
+	\section*{Q2.}
+	\subsection*{(a)}
+	Two possible values of $z$ are $z = 101$ and $z = 10001$. $R = (00 + 10^*1)^*$ while $S = (10^*1 + 0^*10^*)^*$, $\therefore$ any string of the form $(10^*1)^*$ is present in both sets.
+	\subsection*{(b)}
+	Two possible values of $x$ are $x = 00$ and $x = 0000$. $R = (00 + 10^*1)^*$ while $S = (10^*1 + 0^*10^*)^*$, therefore for any string $x \in S$, $x$ must contain at least one 1, but for any string $x \in R$ $x$ can consist solely of an even numbered chain of 0s.
+	\subsection*{(c)}
+	Two possible values of $y$ are $y = 010$ and $y = 0010$. $R = (00 + 10^*1)^*$ while $S = (10^*1 + 0^*10^*)^*$, therefore for any $y \in R, 1 \in y$, $y$ must contain the substring $(10^*1)^*$, which neither examples of $y$ contain. For any $y \in S$, $y$ may be of the form $(0^*10^*)^*$, which both examples of $y$ are.
+	
+	\section*{Q3.}
+	\subsection*{(a)}
+	$(0 + 1)^*(0000 + 1111)(0 + 1)^*$
+	\subsection*{(b)}
+	$(0 + 1)^*(000(0 + 1)^*111 + 111(0 + 1)^*000)(0 + 1)^*$
+	\subsection*{(c)}
+	$(010(0 + 1)^*010 + 010)$
+	\subsection*{(d)}
+	$(1^*(01^*01^*)^*01^*)$
+	\subsection*{(e)}
+	$((0 + 1)010 + 010(0 + 1) + ((0 + 1)(0 + 1))^*(0 + 1)010((0+1)(0+1))^*+((0+1)(0+1))^*010(0+1)((0+1)(0+1))^*$
+\end{document}

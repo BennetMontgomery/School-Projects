@@ -1,0 +1,80 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+
+\title{Assignment 9}
+\date{2019-03-28}
+\author{MONTGOMERY, BENNET 20074049 CISC 223\\
+		\and GOEL, CHRISTOPHER 20053408 CISC 223\\
+		\and VIOLO, JARED 20051382 CISC 223\\
+		\and STUART, HARRISON 20067534 CISC 223
+		}
+
+\begin{document}
+	\maketitle
+	
+	\section*{Q1}
+	\subsection*{(a)}
+	First, we apply the modified Hoare axiom scheme process:\\\\
+		{\fontfamily{qcr}\selectfont
+ASSERT((A | j $\mapsto$ i)[k] >= (A | j $\mapsto$ i)[j])\\
+A[j] = A[i];\\
+ASSERT(A[k] >= A[j]) //Modified H.A. with previous ASSERT\\\\
+	}
+	Then we simplify {\fontfamily{qcr}\selectfont P = (A | j $\mapsto$ i)[k] >= (A | j $\mapsto$ i)[j]} with array-componenet substitution notation:\\\\
+	{\fontfamily{qcr}\selectfont
+		j == k: A[i] >= A[i] //always true\\
+		j != k: A[k] >= A[i]\\\\
+	}
+	Giving us a weakest sufficient precondition\\ {\fontfamily{qcr}\selectfont P = (j == k || A[k] >= A[i])}
+	\subsection*{(b)}
+	First, we apply the modified Hoare axiom schem process:\\\\
+	{\fontfamily{qcr}\selectfont
+ASSERT(((A | k $\mapsto$ x) | j $\mapsto$ 2)[i] == 5)\\
+A[j] = 2;\\
+ASSERT((A | k $\mapsto$ x)[i] == 5) //modified H.A. with previous ASSERT\\ 
+A[k] = x;\\
+ASSERT(A[i] == 5) //modified H.A. with previous ASSERT\\\\
+	}
+	Then we simplify {\fontfamily{qcr}\selectfont P = ((A | k $\mapsto$ x) | j $\mapsto$ 2)[i] == 5 } with array-component substitution notation:\\\\
+	{\fontfamily{qcr}\selectfont
+		k == i: x == 5\\
+		k != i: j == i: 2 == 5 //never true\\
+		\hphantom{aaaaaaaa} j != i: A[i] == 5\\\\
+	}
+	Giving us a weakest sufficient precondition\\
+	{\fontfamily{qcr}\selectfont
+		P = ((k == i \&\& x == 5) || (k != i \&\& j != i \&\& A[i] == 5))
+	}
+	
+	\section*{Q2.}
+	The appropriate loop invariant is {\fontfamily{qcr}\selectfont INVAR = ((1 <= j <= n) \&\& ForAll(i = 0; i < j) A[i] == (i + 1) * (i + 2)/2))}. The complete proof tableau is:\\\\
+	{\fontfamily{qcr}\selectfont
+ASSERT(1 <= n < max)\\
+\{ int j; //no effect on logic\\
+ASSERT(1 <= 1 <= n \&\& true)\\
+\hphantom{aaaa}j = 1;\\
+//When j = 1, ForAll statement is 1 == (1)*(2)/2, which evaluates to true\\
+ASSERT(1 <= j <= n \&\& ForAll(i = 0; i < j) (A | 0 $\mapsto$ 1)[i] == (i+1)*(i+2)/2)\\
+\hphantom{aaaa}A[0] = 1;\\
+ASSERT(INVAR) //Modified H.A. with previous ASSERT\\
+\hphantom{aaaa}while(j<n) \{\\
+ASSERT(INVAR \&\& j < n) //otherwise loop would've terminated\\
+//from previous loop iteration\\
+ASSERT(ForAll(i = 0; i < j)(A | j $\mapsto$ A[j-1]+j+1)[i] == (i+1)*(i+2)/2)\\
+\hphantom{aaaaaaaa}A[j] = A[j-1] + j + 1;\\
+ASSERT(ForAll(i = 0; i < j) A[i]  == (i+1)*(i+2)/2) //modified H.A. w/ prev\\
+\hphantom{aaaaaaaa}j = j+1;\\
+ASSERT(INVAR)\\
+\hphantom{aaaa}\}\\
+//j == n or loop termination condition would never have been met\\
+ASSERT(INVAR \&\& j == n)\\ 
+\}\\
+//j == n, so we sub n in for j in INVAR\\
+ASSERT(ForAll(i = 0; i < n) A[i] == (i+1)*(i+2)/2)
+	}
+	
+\end{document}

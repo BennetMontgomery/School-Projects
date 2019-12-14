@@ -1,0 +1,91 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+
+\title{Assignment 7}
+\date{2019-03-14}
+\author{MONTGOMERY, BENNET 20074049 CISC 223\\
+		\and GOEL, CHRISTOPHER 20053408 CISC 223\\
+		\and VIOLO, JARED 20051382 CISC 223\\
+		\and STUART, HARRISON 20067534 CISC 223
+		}
+
+\begin{document}
+	\maketitle
+	
+	\section*{Q1}
+	a) {\fontfamily{qcr}\selectfont P} is the precondition {\fontfamily{qcr}\selectfont 2 == 1}
+	\\\\b) {\fontfamily{qcr}\selectfont P} is the precondition {\fontfamily{qcr}\selectfont 2 > 2}
+	\\\\c) {\fontfamily{qcr}\selectfont P} is the precondition {\fontfamily{qcr}\selectfont y + z < y + z}
+	\\\\d) {\fontfamily{qcr}\selectfont P} is the precondition {\fontfamily{qcr}\selectfont z > (x + y + z)*(x + y + z) + 2}
+	\\\\e) {\fontfamily{qcr}\selectfont P} is the precondition {\fontfamily{qcr}\selectfont y*y > z + 5}
+	\\\\f) {\fontfamily{qcr}\selectfont P} is the precondition {\fontfamily{qcr}\selectfont Exists(w = 0; w < 10) y + z + w >= 50}
+	\\\\g) {\fontfamily{qcr}\selectfont P} is the precondition {\fontfamily{qcr}\selectfont ForAll(k = 1; k < 100) y + z + 2*k > w+2}
+	\\\\h) {\fontfamily{qcr}\selectfont P} is the precondition {\fontfamily{qcr}\selectfont ForAll(x = 1; x < z) x + y + 2 < 100}
+	\\\\i) {\fontfamily{qcr}\selectfont P} is the precondition \\{\fontfamily{qcr}\selectfont ForAll(k = 1; k < n) Exists(j = 1; j < n) (y + z)*k <= 3*j+w}
+	\\\\j) {\fontfamily{qcr}\selectfont P} is the precondition \\{\fontfamily{qcr}\selectfont ForAll(y = 1; y < n) Exists(x = 1; x < n) x*y <= 3*z + w}
+	
+	\section*{Q2}
+	\subsection*{(a)} The proof tableau for this correctness statement is (continued on next page):
+	{\fontfamily{qcr}\selectfont
+	\begin{lstlisting}
+ASSERT(x == y*(y+1)/2)
+ASSERT(x+(y+1) == (y+1)*((y+1)+1)/2) //using Fact (i) on next page
+y = y + 1
+ASSERT((x+y) == y*(y+1)/2) //H.A. with previous assert
+x = x + y
+ASSERT(x == y*(y+1)/2) //H.A. with previous assert
+	\end{lstlisting}
+	}
+	Fact (i): {\fontfamily{qcr}\selectfont x == y*(y+1)/2 implies x+(y+1) == (y+1)*((y+1)+1)/2}
+	\\Proof:
+		\begin{align*}
+			x &= \frac{y(y+1)}{2}\\
+			x + (y + 1) &= \frac{y(y+1)}{2} + y + 1\\
+			x + (y + 1) &= \frac{y(y+1)+2y+2}{2}\\
+			x + (y + 1) &= \frac{y^2 + 3y+2}{2}\\
+			x + (y + 1) &= \frac{(y+1)(y+2)}{2}\\
+			x + (y + 1) &= \frac{(y+1)((y+1)+1)}{2}	
+		\end{align*}
+	\subsection*{(b)} The proof tableau for this correctness statement is :
+	{\fontfamily{qcr}\selectfont
+	\begin{lstlisting}
+ASSERT(x == 5 && y == 6 && z < -1)
+ASSERT(y + 2z <= 5) //using Fact (ii)
+ASSERT(y - (y + z) >= 2) //using Fact (iii) on next page
+ASSERT(y + 2z <= 5 && y - (y + z) >= 2) //Combine last 2 asserts
+x = y + z
+ASSERT(x + z <= 5 && y - x >= 2) //H.A. with previous assert
+y = y - x;
+ASSERT(x + z <= 5 && y >= 2) //H.A. with previous assert
+x = x + z;
+ASSERT(x <= 5 && y >= 2) //H.A. with previous assert
+	\end{lstlisting}
+	}
+	Fact(ii): {\fontfamily{qcr}\selectfont y == 6 \&\& z < -1 implies y + 2z <= 5}
+\\Proof:
+	\begin{align*}
+		y &= 6\\
+		z &< -1\\
+		z &\leq -2\\
+		2z &\leq -4\\
+		y + 2z &\leq y - 4\\
+		y + 2z &\leq 6 - 4\\
+		y + 2z &\leq 2\\
+		y + 2z &\leq 5
+	\end{align*}
+	Fact(iii): {\fontfamily{qcr}\selectfont y == 6 \&\& z <= -2 implies y - (y + z) >= 2}
+\\Proof:
+	\begin{align*}
+		y &= 6\\
+		z &\leq -2\\
+		y + z &\leq 4\\
+		y - (y + z) &\geq y- 4\\
+		y - (y + z) &\geq 6 - 4\\
+		y - (y + z) &\geq 2
+	\end{align*}
+\end{document}

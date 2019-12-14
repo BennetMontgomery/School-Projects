@@ -1,0 +1,92 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{Assignment 6}
+\date{2019-03-07}
+\author{MONTGOMERY, BENNET 20074049 CISC223
+		\and GOEL, CHRISTOPHER 20053408 CISC223\\
+		\and VIOLO, JARED 20051382 CISC223\\
+		\and DALLAS, SPENCER 20048480 CISC223
+		}
+		
+\begin{document}
+	\maketitle
+	
+	\section*{Q1.}
+	\subsection*{(a)}
+	i) FIRST$(AB) = \{d, c\}$\\\\
+	ii) FIRST$(CD) = \{d, c\}$\\\\
+	iii) FOLLOW$(S) = \{d$, EOS\}. $d$ follows $S$ by the derivation $S \Rightarrow AB \Rightarrow CDB \Rightarrow dSdDB$. EOS follows $S$ by the derivation $S \Rightarrow a$.\\\\
+	iv) FOLLOW$(A) = \{b, d, \epsilon$, EOS\}. $b$ follows $A$ by the derivation $S \Rightarrow AB \Rightarrow AbAB$. $d$ follows $A$ by the derivation $S \Rightarrow AB \Rightarrow CDB \Rightarrow dSdDB \Rightarrow dABdDB \Rightarrow dA\epsilon dDB \Rightarrow dAdDB$. $\epsilon$ follows $A$ by the derivation $S \Rightarrow AB \Rightarrow A\epsilon$. EOS follows $A$ by the derivation $S \Rightarrow AB \Rightarrow A\epsilon \Rightarrow A$.\\\\
+	v) FOLLOW$(B) = \{d,$ EOS\}. $d$ follows $B$ by the derivation $S \Rightarrow AB \Rightarrow CDB \Rightarrow dSdDB \Rightarrow dABdDB$. EOS follows $B$ by the derivation $S \Rightarrow AB$.\\\\
+	vi) FOLLOW$(C) = \{c, \epsilon, d, b$, EOS\}. $c$ follows $C$ by the derivation $S \Rightarrow AB \Rightarrow CDB \Rightarrow CcCDB$. $\epsilon$ follows $C$ by the derivation $S \Rightarrow AB \Rightarrow CDB \Rightarrow C\epsilon B$. $b$ follows $C$ by the derivation $S \Rightarrow AB \Rightarrow CDB \Rightarrow C\epsilon B \Rightarrow CB \Rightarrow CbAB$. $d$ follows $C$ by the derivation $S \Rightarrow AB \Rightarrow CDB \Rightarrow dSdDB \Rightarrow dABdDB \Rightarrow dA\epsilon dDB \Rightarrow dAdDB \Rightarrow dCDdDB \Rightarrow dC\epsilon dDB \Rightarrow dCdDB$. EOS follows $C$ by the derivation $S \Rightarrow AB \Rightarrow CDB \Rightarrow CD\epsilon \Rightarrow CD \Rightarrow C\epsilon \Rightarrow C$\\\\
+	vii) FOLLOW$(D) = \{b, d, \epsilon$, EOS\}. $b$ follows $D$ by the derivation $S \Rightarrow AB \Rightarrow CDB \Rightarrow CDbAB$. $d$ follows $D$ by the derivation $S \Rightarrow AB \Rightarrow CDB \Rightarrow dSdDB \Rightarrow dABdDB \Rightarrow dA\epsilon dDB \Rightarrow dAdDB \Rightarrow dCDdDB$. $\epsilon$ follows $D$ by the derivation $S \Rightarrow AB \Rightarrow CDB \Rightarrow CD\epsilon$ EOS follows $D$ by the derivation $S \Rightarrow AB \Rightarrow CDB \Rightarrow CD\epsilon \Rightarrow CD$.
+	\subsection*{(b)}
+	This grammar does allow the use of recursive-descent parsing. Recall the conditions for a grammer to be able to be parsed using recursive descent: no terminal $b \in \Sigma$ can begin both a string $w_1$ derived from $\alpha$ and a string $w_2$ derived from $\beta$, at most one of $\alpha$ and $\beta$ can derive the empty string $\epsilon$, and if $\beta$ or $\alpha \Rightarrow^* \epsilon$ then FIRST($\alpha$ or $\beta$) $\cap$ FOLLOW($N) = \O$ for any production $N \rightarrow \alpha$ $|$ $\beta$. Note that the productions for $S$, $B$, $C$, and $D$ are of this form, so we need only show that these conditions hold for all four of these productions.\par
+	For the production $S \rightarrow AB$ $|$ $a$, $\alpha = AB$ and $\beta = a$. Since FIRST($AB) = \{d, c\}$ and FIRST($a) = \{a\}$, the first of the above conditions is satisfied for this production. Neither $\alpha \Rightarrow^* \epsilon$ nor $\beta \Rightarrow^* \epsilon$, so this production automatically satisfies both remaining conditions.\par
+	For the production $B \rightarrow bAB$ $|$ $\epsilon$, $\alpha = bAB$ and $\beta = \epsilon$. Since FIRST($bAB) = \{b\}$ and FIRST($\epsilon) = \{\epsilon\}$, the first condition is satisfied. Only one of $\alpha$ and $\beta$ derives the empty string, so the second condition is satisfied. Since $\beta \Rightarrow^* \epsilon$, we must show that the third condition in the above list holds for this production:
+		\begin{align*}
+			FIRST(bAB) &\cap FOLLOW(B) = \O\\
+			\{b\} &\cap \{d, EOS\} = \O\\
+			\O &= \O
+		\end{align*}
+	Since the above equality holds, all conditions are satisfied for this production.\par
+	For the production $C \rightarrow dSd$ $|$ $c$, $\alpha = dSd$ and $\beta = c$. Since FIRST($dSd) = \{d\}$ and FIRST($c) = \{c\}$, the first condition is satisfied. Neither $\alpha \Rightarrow^* \epsilon$ nor $\beta \Rightarrow^* \epsilon$, so this productions satisfies both remaining conditions.\par
+	Finally, for the production $D \rightarrow cCD$ $|$ $\epsilon$, $\alpha = cCD$ and $\beta = \epsilon$. Since FIRST($cCD) = \{c\}$ and FIRST($\epsilon) = \{\epsilon\}$, the first condition is satisfied. Only one of $\alpha$ and $\beta$ derives the empty string, so the second condtion is also satisfied. Since $\beta \Rightarrow^* \epsilon$, we must show that the third condition holds for this production:
+	\begin{align*}
+		FIRST(cCD) &\cap FOLLOW(D) = \O\\
+		\{c\} &\cap \{b, d, \epsilon, EOS\} = \O\\
+		\O &= \O
+	\end{align*}
+Since the above equality holds, all conditions are satsified for this production.\\
+$\because$ the conditions list is satisfied by all relevant productions, $\therefore$ QED.
+
+	\section*{Q2.}
+	\subsection*{(a)}
+	After left factoring for prefix $ab$:
+		\begin{align*}
+			S &\rightarrow abS' \hphantom{a} | \hphantom{a} bcc\\
+			S' &\rightarrow Sa \hphantom{a} | \hphantom{a} cSc \hphantom{a} | \hphantom{a} dc
+		\end{align*}
+	\subsection*{(b)}
+	After left factoring for prefix $cc$:
+		\begin{align*}
+			S &\rightarrow bSa \hphantom{a} | \hphantom{a} ccS' \hphantom{a} | \hphantom{a} abc\\
+			S' &\rightarrow aSb \hphantom{a} | \hphantom{a} bSa
+		\end{align*}
+	\subsection*{(c)}
+	After elimination of left recursion for $S$ (and recalling that $\epsilon$ is the identity for concatenation):
+		\begin{align*}
+			S &\rightarrow ccS' \hphantom{a} | \hphantom{a} S'\\
+			S' &\rightarrow aS' \hphantom{a} | \hphantom{a} bcS' \hphantom{a} | \hphantom{a} \epsilon
+		\end{align*}
+	\subsection*{(d)}
+	After elimination of left recursion for $S$ and $B$:
+		\begin{align*}
+			S &\rightarrow S'\\
+			S' &\rightarrow BS' \hphantom{a} | \hphantom{a} \epsilon\\
+			B &\rightarrow aB'\\
+			B' &\rightarrow bB' \hphantom{a} | \hphantom{a} \epsilon
+		\end{align*}
+	\subsection*{(e)}
+	After left factoring for $ab$ and $cd$:
+		\begin{align*}
+			S &\rightarrow abS' \hphantom{a} | \hphantom{a} cdS''\\
+			S' &\rightarrow cSd \hphantom{a} | \hphantom{a} ddS\\
+			S'' &\rightarrow abS \hphantom{a} | \hphantom{a} bb
+		\end{align*}
+	\subsection*{(f)}
+	After elimination of left recursion for $S$:
+		\begin{align*}
+			S &\rightarrow bS' \hphantom{a} | \hphantom{a} cS'\\
+			S' &\rightarrow abS' \hphantom{a} | \hphantom{a} acS' \hphantom{a} | \hphantom{a} \epsilon
+		\end{align*}
+	After factoring for $a$ in $S'$:
+		\begin{align*}
+			S &\rightarrow bS' \hphantom{a} | \hphantom{a} cS'\\
+			S' &\rightarrow aS'' \hphantom{a} | \hphantom{a} \epsilon\\
+			S'' &\rightarrow bS' \hphantom{a} | \hphantom{a} cS'
+		\end{align*}
+\end{document}

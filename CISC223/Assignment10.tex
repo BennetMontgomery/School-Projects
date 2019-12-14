@@ -1,0 +1,38 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+
+\title{Assignment 10}
+\date{2019-04-04}
+\author{MONTGOMERY, BENNET 20074049 CISC 223\\
+		\and GOEL, CHRISTOPHER 20053408 CISC 223\\
+		\and VIOLO, JARED 20051382 CISC 223\\
+		\and DALLAS, SPENCER 20048480 CISC 223
+		}
+
+\begin{document}
+	\maketitle
+	
+	\section*{Q1.}
+	Although there exists no program ({\fontfamily{qcr}\selectfont halts}) that can determine if every program terminates given any program and any input, this does not mean that we cannot evaluate an individual program and state that it terminates given a precondition for input and a postcondition for output. The reason that {\fontfamily{qcr}\selectfont halts} is uncomputable is that some loops cannot be verified as terminating, not that all loops cannot be verified as terminating. 
+	
+	\section*{Q2.}
+	Assuming that this question is asking us to compare the result of {\fontfamily{qcr}\selectfont power(2, z)} to the maximum number of atoms in the universe throughout all of time, then yes because our input is limited to the range of {\fontfamily{qcr}\selectfont int}, which is finite. Since the number of atoms increases indefinitely, the number of atoms in the universe will eventually surpass the maximum value of {\fontfamily{qcr}\selectfont int}. Therefore, the maximum number of atoms throughout the existence of the universe is greater than any possible input, making the solution to this problem reducible to {\fontfamily{qcr}\selectfont false}:
+	\begin{lstlisting}
+bool SizeOfUniverse(int z) {
+	return false;
+}
+	\end{lstlisting}
+	\section*{Q3.}
+	Assuming that {\fontfamily{qcr}\selectfont HaltsOnAll} is implementable, we could write the theoretically unimplementable program {\fontfamily{qcr}\selectfont halts}:
+	\begin{lstlisting}
+bool halts(FILE *func, FILE *arg) {
+	//if func terminates for all input, it must terminate for arg
+	return HaltsOnAll(&func);
+}
+	\end{lstlisting}
+	Because {\fontfamily{qcr}\selectfont halts} is implementable using {\fontfamily{qcr}\selectfont HaltsOnAll} as a subroutine, {\fontfamily{qcr}\selectfont halts} is reducible to {\fontfamily{qcr}\selectfont HaltsOnAll}. By the properties of reducibility, if {\fontfamily{qcr}\selectfont halts} is reducible to {\fontfamily{qcr}\selectfont HaltsOnAll}, {\fontfamily{qcr}\selectfont HaltsOnAll} must be at least as hard as {\fontfamily{qcr}\selectfont halts}, and since {\fontfamily{qcr}\selectfont halts} is unimplementable, therefore {\fontfamily{qcr}\selectfont HaltsOnAll} is unimplementable as well.
+\end{document}
