@@ -1,0 +1,248 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\title{Finding the Intersection of Three Planes in MATLAB}
+\author{Bennet Montgomery, Student No. 20074049}
+\date{2019-02-06}
+
+\begin{document}
+	\maketitle
+	\section*{Abstract}
+	This assignment was conducted in order to find and verify the validity of a MATLAB program for calculating the intersection of three planes. This was done by generating a function in MATLAB that takes three planes of the form $ax + by + cz + d = 0$ and calculates their intersection, and then testing the results of this function against a series of test cases representative of allowed input to the function. The function created for the assignment was successfully able to provide a satisfactory answer to all test cases.
+	
+	\section*{Introduction}
+	This purpose of this assignment to determine a reliable way to find the intersection of three planes using the MATLAB environment. There are two general conditions for intersection of three planes assuming no mutually parallel planes are present: the case where the three planes intercept at a single point and the case where the three planes intersect at a line. In order to determine the case, we convert the three plane equations into a single linear equation of the form $A\vec{x}=\vec{b}$ where the planes are represented by equations in the form
+		\begin{align*}
+			ax + by + cz + d = 0
+		\end{align*}
+	$A$ is a data matrix of the planes in the form
+		\begin{align*}
+			\left[\begin{matrix}
+				a_1 & b_1 & c_1\\
+				a_2 & b_2 & c_2\\
+				a_3 & b_3 & c_3
+			\end{matrix}\right]
+		\end{align*}
+	$\vec{b}$ is a result vector in the form
+		\begin{align*}
+			\left[\begin{matrix}
+				-d_1\\
+				-d_2\\
+				-d_3\\
+			\end{matrix}\right]
+		\end{align*}
+	 and $\vec{x}$ is the set of solutions that satisfy the linear equation. If the data matrix $A$ is non-singular, then the linear equation has one solution and therefore the planes intersect at a point, otherwise there are an infinite number of solutions and the planes intersect along a line. This method can be easily transposed into MATLAB, as was done in file a1.m. If our MATLAB code contained within the attached a1.m file is correct, then we should be able to manually verify the results of a1 by checking the linear equation $A\vec{x}=\vec{b}$.
+	\section*{Methods}
+	A function a1 that takes the coefficients of three planes in $\mathbb{R}^3$ and returns a particular solution vector (Pvec) and the basis vectors of the nullspace (Nspace) was created in MATLAB. This function was fed the planes included in the file A1cases.pdf, and the results were then recorded. The results of the functions were then verified to determine function correctness by checking against the linear equation $A\vec{x} = \vec{b}$ and finding the null space manually if a non-trivial nullspace exists.
+	\section*{Results}
+	For the first case in A1cases.pdf, the function returned
+		\begin{align*}
+			Pvec = \left[\begin{matrix}
+							-3\\
+							4\\
+							9
+						\end{matrix}\right]
+		\end{align*}
+	and an empty nullspace, implying the data matrix was non-singular. Transforming the found Pvec by the data matrix $A$ gives us:
+		\begin{align*}
+			\left[\begin{matrix}
+					-1 & -3 & 5\\
+					-2 & 7 & 9\\
+					4 & 8 & -4\\
+				   \end{matrix}\right]\left[\begin{matrix}
+						-3\\
+						4\\
+						9
+					\end{matrix}\right] &= \left[\begin{matrix}
+						36\\
+						115\\
+						-16\\
+					\end{matrix}\right]
+		\end{align*}
+	which matches our expected result matrix. The nullspace is trivial if $A$ is non-singular. Row reducing $A$ to RREF gives us:
+		\begin{align*}
+			RREF(A) &= \left[\begin{matrix}
+				1 & 0 & 0\\
+				0 & 1 & 0\\
+				0 & 0 & 1
+			\end{matrix}\right]
+		\end{align*}
+		There are no missing pivots, so $A$ is non-singular. $\because$ the formula returned the correct Pvec and Nspace, $\therefore$ the formula was correct for this case.
+	For the second case in A1cases.pdf, the function returned
+		\begin{align*}
+			Pvec &= \left[\begin{matrix}
+				-\frac{597}{13}\\
+				\frac{43}{13}\\
+				0
+			\end{matrix}\right]\\
+			Nmat &= \left[\begin{matrix}
+				4.7692\\
+				0.0769\\
+				1.0000
+			\end{matrix}\right]
+		\end{align*}
+	Transforming the found Pvec by the data matrix $A$ gives us:
+		\begin{align*}
+			\left[\begin{matrix}
+				-1 & -3 & 5\\
+				-2 & 7 & 9\\
+				-2 & 7 & 9\\
+			\end{matrix}\right]\left[\begin{matrix}
+				-\frac{597}{13}\\
+				\frac{43}{13}\\
+				0
+			\end{matrix}\right] &= \left[\begin{matrix}
+				36\\
+				115\\
+				115\\
+			\end{matrix}\right]
+		\end{align*}
+	Which matches the expected result vector. The RREF of the data matrix is:
+		\begin{align*}
+			RREF(A) = \left[\begin{matrix}
+				1 & 0 & -4.7692\\
+				0 & 1 & -0.0769\\
+				0 & 0 & 0
+			\end{matrix}\right]
+		\end{align*}
+	From which we derive the nullspace
+		\begin{align*}
+			null(A) &= \left[\begin{matrix}
+				4.7692\\
+				0.0769\\
+				1\\
+			\end{matrix}\right]
+		\end{align*}
+	Which matches the nullspace calculated by a1.m. $\because$ the formula returned the correct Pvec and Nspace, $\therefore$ the formula was correct for this case. For the third case in A1cases.pdf, the function returned
+		\begin{align*}
+			Pvec &= \left[\begin{matrix}
+				-3\\
+				0\\
+				9
+			\end{matrix}\right]\\
+			Nmat &= \left[\begin{matrix}
+				0\\
+				1\\
+				0
+			\end{matrix}\right]
+		\end{align*}
+	Transforming the found Pvec by the data matrix $A$ gives us:
+		\begin{align*}
+			\left[\begin{matrix}
+				-1 & 0 & -3\\
+				-2 & 0 & 7\\
+				4 & 0 & 8\\
+			\end{matrix}\right]\left[\begin{matrix}
+				-3\\
+				0\\
+				9\\
+			\end{matrix}\right] &= \left[\begin{matrix}
+				-24\\
+				69\\
+				60\\
+			\end{matrix}\right]
+		\end{align*}
+	Which matches the expected result vector. The RREF of the data matrix is:
+		\begin{align*}
+			RREF(A) &= \left[\begin{matrix}
+				1 & 0 & 0\\
+				0 & 0 & 0\\
+				0 & 0 & 1\\
+			\end{matrix}\right]
+		\end{align*}
+	From which we derive the nullspace:
+		\begin{align*}
+			null(A) &= \left[\begin{matrix}	
+				0\\
+				1\\
+				0
+			\end{matrix}\right]
+		\end{align*}
+	Which matches the nullspace calculated by a1.m. $\because$ the formula returned the correct Pvec and Nspace, $\therefore$ the formula was correct for this case. For the fourth case in A1cases.pdf, the function returned
+		\begin{align*}
+			Pvec = \left[\begin{matrix}
+				0\\
+				0\\
+				9
+			\end{matrix}\right]\\
+			Nmat = \left[\begin{matrix}
+				1 & 0\\
+				0 & 1\\
+				0 & 0
+			\end{matrix}\right]
+		\end{align*}
+	Transforming the found Pvec by the data matrix $A$ gives us:
+		\begin{align*}
+			\left[\begin{matrix}
+				0 & 0 & 5\\
+				0 & 0 & 9\\
+				0 & 0 & -4\\
+			\end{matrix}\right]\left[\begin{matrix}
+				0\\
+				0\\
+				9\\
+			\end{matrix}\right] &= \left[\begin{matrix}
+				45\\
+				81\\
+				-36\\
+			\end{matrix}\right]
+		\end{align*}
+	Which matches the expected result vector. The RREF of the data matrix is:
+		\begin{align*}
+			RREF(A) &= \left[\begin{matrix}
+				0 & 0 & 1\\
+				0 & 0 & 0\\
+				0 & 0 & 0\\
+			\end{matrix}\right]
+		\end{align*}
+	From which we derive the nullspace:
+		\begin{align*}
+			null(A) &= \left[\begin{matrix}	
+				1 & 0\\
+				0 & 1\\
+				0 & 0
+			\end{matrix}\right]
+		\end{align*}
+	Which matches the nullspace calculated by a1.m. $\because$ the formula returned the correct Pvec and Nspace, $\therefore$ the formula was correct for this case. For the fifth case in A1cases.pdf, the function returned
+		\begin{align*}
+			Pvec &= \left[\begin{matrix}
+				0\\
+				0\\
+				0
+			\end{matrix}\right]\\
+			Nmat &= \left[\begin{matrix}
+				1 & 0 & 0\\
+				0 & 1 & 0\\
+				0 & 0 & 1
+			\end{matrix}\right]
+		\end{align*}
+	Transforming the found Pvec by the data matrix $A$ gives us:
+		\begin{align*}
+			\left[\begin{matrix}
+				0 & 0 & 0\\
+				0 & 0 & 0\\
+				0 & 0 & 0\\
+			\end{matrix}\right]\left[\begin{matrix}
+				0\\
+				0\\
+				0\\
+			\end{matrix}\right] &= \left[\begin{matrix}
+				0\\
+				0\\
+				0\\
+			\end{matrix}\right]
+		\end{align*}
+	Which matches the expected result vector. The RREF of the data matrix is:
+		\begin{align*}
+			RREF(A) &= \left[\begin{matrix}
+				0 & 0 & 0\\
+				0 & 0 & 0\\
+				0 & 0 & 0\\
+			\end{matrix}\right]
+		\end{align*}
+	From which the nullspace is the identity matrix of size 3, which matches the nullspace calculated by a1.m. $\because$ the formula returned the correct Pvec and Nspace, $\therefore$ the formula was correct for this case.
+	\section*{Discussion}
+	In all cases tested for, the algorithm in a1.m returned the correct results for particular solutions and nullspaces. These test cases covered an example of every potential input type that a1 could receive. Test case one contained three planes intercepting at a single point, test two contained two identical planes, test three contained three planes intercepting at a line, test four contained three coplanar planes, and test five contained all of $\mathbb{R}^3$. Because the algorithm was able to successfully navigate all five input situations, we can assume that a1.m works for any type of allowed input and is therefore valid.
+\end{document}
