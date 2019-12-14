@@ -1,0 +1,73 @@
+class Node:
+    def __init__(self, key, value, height, parent):
+        self.KEY = key
+        self.value = value
+        self.height = height
+        self.parent = parent
+        self.leftChildren = 0
+        self.rightChildren = 0
+        self.left = None
+        self.right = None
+
+class AVLTreeMap:
+    def __init__(self):
+        self.root = None
+
+    def searchPath(self, key):
+        return self.root.key
+
+    def get(self, key):
+        if(self.root.KEY == key):
+            return self.root.value
+        else:
+            return None
+
+    def getBalance(self, node):
+        if node == None:
+            return 0
+        else
+            return max(abs(node.rightChildren - node.leftChildren), getBalance(right), getBalance(left))
+
+    def rebalance(self, inserted):
+        if getBalance(inserted.parent.parent)
+
+
+    def put(self, key, value):
+        if self.root == None:
+            self.root = Node(key, value, 0, None)
+        else:
+            heightctr = 0
+            currnode = self.root
+            placed = False
+
+            while not placed:
+                currnode.height += 1
+                if value < currnode.value:
+                    currnode.leftChildren += 1
+                    heightctr += 1
+                    
+                    if currnode.left == None:
+                        currnode.left = Node(key, value, heightctr, currnode)
+                        placed = True
+                    else:
+                        currnode = currnode.left
+                else:
+                    currnode.rightChildren += 1
+                    heightctr += 1
+
+                    if currnode.right == None:
+                        currnode.right = Node(key, value, heightctr, currnode)
+                        placed = True
+                    else:
+                        currnode = currnode.right
+
+            rebalance(currnode)
+
+
+def main():
+    avl = AVLTreeMap()
+    avl.put(15, 'bob')
+    print(avl.get(1))
+
+if __name__ == '__main__':
+    main()
